@@ -1,0 +1,322 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow: hidden;
+    background: #000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    cursor: crosshair;
+}
+
+canvas {
+    display: block;
+}
+
+.overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 10;
+    color: #fff;
+}
+
+.overlay h1 {
+    font-size: 64px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #00f0ff, #7b2ff7, #ff2d95);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 16px;
+    text-shadow: 0 0 40px rgba(0, 240, 255, 0.3);
+}
+
+.overlay .subtitle {
+    font-size: 20px;
+    color: #aaa;
+    margin-bottom: 32px;
+    letter-spacing: 2px;
+}
+
+.controls-info {
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.controls-info p {
+    font-size: 14px;
+    color: #888;
+    margin: 6px 0;
+}
+
+.controls-info strong {
+    color: #00f0ff;
+}
+
+.overlay button {
+    padding: 14px 48px;
+    font-size: 20px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border: 2px solid #00f0ff;
+    background: transparent;
+    color: #00f0ff;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.overlay button:hover {
+    background: #00f0ff;
+    color: #000;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+}
+
+.overlay #finalScore, .overlay #finalRound, .overlay #winScore {
+    font-size: 24px;
+    color: #ccc;
+    margin: 8px 0;
+}
+
+#hud {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 5;
+    pointer-events: none;
+}
+
+#hudLeft, #hudCenter, #hudRight {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#hudCenter {
+    align-items: center;
+}
+
+#hudRight {
+    align-items: flex-end;
+}
+
+#healthBar {
+    width: 200px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+#healthFill {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #ff2d55, #ff6b35, #00e676);
+    transition: width 0.3s;
+}
+
+#healthText {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 4px #000;
+}
+
+#scoreDisplay, #roundDisplay, #enemyCount {
+    font-size: 14px;
+    color: #00f0ff;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+}
+
+#roundDisplay {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#laserCharge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ff2d95;
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+
+#laserBar {
+    width: 120px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 45, 149, 0.3);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+#laserFill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #ff2d95, #ff6b35);
+    transition: width 0.1s;
+}
+
+#roundAnnounce {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 8;
+    text-align: center;
+}
+
+#roundAnnounce h2 {
+    font-size: 72px;
+    letter-spacing: 12px;
+    color: #fff;
+    text-shadow: 0 0 40px rgba(0, 240, 255, 0.6), 0 0 80px rgba(123, 47, 247, 0.4);
+    animation: announceIn 2s ease-out forwards;
+}
+
+@keyframes announceIn {
+    0% { opacity: 0; transform: scale(2); }
+    20% { opacity: 1; transform: scale(1); }
+    80% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.8); }
+}
+
+#bossWarning {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9;
+    text-align: center;
+}
+
+#bossWarning h2 {
+    font-size: 56px;
+    letter-spacing: 8px;
+    color: #ff0044;
+    text-shadow: 0 0 40px rgba(255, 0, 68, 0.8), 0 0 80px rgba(255, 0, 68, 0.4);
+    animation: bossWarn 2.5s ease-out forwards;
+}
+
+@keyframes bossWarn {
+    0% { opacity: 0; transform: scale(0.5); }
+    10% { opacity: 1; transform: scale(1.2); }
+    20% { opacity: 1; transform: scale(1); }
+    30% { opacity: 0.3; }
+    40% { opacity: 1; }
+    50% { opacity: 0.3; }
+    60% { opacity: 1; }
+    80% { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.8); }
+}
+
+/* Mobile Controls */
+#mobileControls {
+    position: fixed;
+    bottom: 0; left: 0;
+    width: 100%; height: 200px;
+    z-index: 6;
+    pointer-events: none;
+}
+
+#joystickArea {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    width: 130px;
+    height: 130px;
+    pointer-events: auto;
+    touch-action: none;
+}
+
+#joystickBase {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(0, 240, 255, 0.3);
+    position: relative;
+}
+
+#joystickThumb {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0, 240, 255, 0.4);
+    border: 2px solid rgba(0, 240, 255, 0.6);
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+#fireBtn {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(255, 45, 149, 0.2);
+    border: 2px solid rgba(255, 45, 149, 0.5);
+    color: #ff2d95;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    touch-action: none;
+    user-select: none;
+}
+
+#fireBtn:active {
+    background: rgba(255, 45, 149, 0.5);
+    box-shadow: 0 0 30px rgba(255, 45, 149, 0.4);
+}
+
+@media (max-width: 768px) {
+    .overlay h1 {
+        font-size: 32px;
+        letter-spacing: 4px;
+    }
+    .overlay .subtitle {
+        font-size: 14px;
+    }
+    .overlay button {
+        padding: 10px 32px;
+        font-size: 16px;
+    }
+    #roundAnnounce h2 {
+        font-size: 48px;
+    }
+    #bossWarning h2 {
+        font-size: 36px;
+    }
+    #healthBar {
+        width: 120px;
+        height: 16px;
+    }
+    #laserBar {
+        width: 80px;
+    }
+}

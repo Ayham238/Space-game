@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galactic Defender - Space Shooter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="startScreen" class="overlay">
+        <h1>GALACTIC DEFENDER</h1>
+        <p class="subtitle">Survive 100 Rounds of Alien Invasion</p>
+        <div class="controls-info">
+            <p><strong>WASD / Arrow Keys</strong> - Move</p>
+            <p><strong>Click</strong> - Shoot</p>
+            <p><strong>Hold Click</strong> - Charge Laser (1.5x damage, 2x speed)</p>
+        </div>
+        <button id="startBtn" onclick="startGame()">START MISSION</button>
+    </div>
+    <div id="gameOverScreen" class="overlay" style="display:none;">
+        <h1>MISSION FAILED</h1>
+        <p id="finalScore">Score: 0</p>
+        <p id="finalRound">Round Reached: 1</p>
+        <button onclick="startGame()">RETRY MISSION</button>
+    </div>
+    <div id="winScreen" class="overlay" style="display:none;">
+        <h1>VICTORY!</h1>
+        <p>You survived all 100 rounds!</p>
+        <p id="winScore">Score: 0</p>
+        <button onclick="startGame()">PLAY AGAIN</button>
+    </div>
+    <div id="hud" style="display:none;">
+        <div id="hudLeft">
+            <div id="healthBar"><div id="healthFill"></div><span id="healthText">100</span></div>
+            <div id="scoreDisplay">SCORE: <span id="scoreValue">0</span></div>
+        </div>
+        <div id="hudCenter">
+            <div id="roundDisplay">ROUND <span id="roundValue">1</span> / 100</div>
+            <div id="enemyCount">ENEMIES: <span id="enemyValue">0</span></div>
+        </div>
+        <div id="hudRight">
+            <div id="laserCharge">
+                <span>LASER</span>
+                <div id="laserBar"><div id="laserFill"></div></div>
+            </div>
+        </div>
+    </div>
+    <div id="roundAnnounce" style="display:none;">
+        <h2>ROUND <span id="announceRound">1</span></h2>
+    </div>
+    <div id="bossWarning" style="display:none;">
+        <h2>⚠ BOSS INCOMING ⚠</h2>
+    </div>
+    <!-- Mobile Controls -->
+    <div id="mobileControls" style="display:none;">
+        <div id="joystickArea">
+            <div id="joystickBase">
+                <div id="joystickThumb"></div>
+            </div>
+        </div>
+        <div id="fireBtn">FIRE</div>
+    </div>
+    <script src="web.js"></script>
+</body>
+</html>
